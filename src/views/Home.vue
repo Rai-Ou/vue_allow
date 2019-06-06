@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
+    <img @click="tel" alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
   </div>
 </template>
@@ -13,6 +13,11 @@ export default {
   name: 'home',
   components: {
     HelloWorld
+  },
+  methods:{
+    tel(){
+      window.location.href = 'tel://031182057888' 
+    }
   }
 }
 </script>
