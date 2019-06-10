@@ -14,6 +14,11 @@ const constantRouterMap = [
     component: resolve => require(['@/views/Home.vue'], resolve)
   },
   {
+    path: '/home',
+    name: 'home',
+    component: resolve => require(['@/views/Home.vue'], resolve)
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
@@ -32,6 +37,7 @@ export const asyncRouterMap = [
   {
     path: '/page',
     name: 'page',
+    meta: { permission: [] },
     component: resolve => require(['@/views/Page.vue'], resolve)
   }
 ]
@@ -77,7 +83,9 @@ function routerMath(permission, asyncRouter) {
 }
 
 router.beforeEach((to, form, next) => {
+  console.log(to.meta.permission)
   if (sessionStorage.getItem('token')) {
+    // console.log(to.path)
     if (to.path === '/') {
       router.replace('/home')
     } else {
@@ -85,16 +93,18 @@ router.beforeEach((to, form, next) => {
       if (store.state.list.length === 0) {
         // 如果没有权限列表，向后台请求
         console.log(111)
-        store.dispatch('getPermission')
-        // store.dispatch('getPermission').then(res => {
-        //     console.log(res);
-        //     routerMath(res, asyncRouterMap).then(res => {
-        //         router.addRoutes(res[0]);
-        //         next(to.path)
-        //     })
-        // }).catch(() => {
-        //     router.replace('/')
-        // })
+        store
+          .dispatch('getPermission')
+          .then(res => {
+            console.log(res)
+            routerMath(res, asyncRouterMap).then(res => {
+              router.addRoutes(res[0])
+              next(to.path)
+            })
+          })
+          .catch(() => {
+            router.replace('/')
+          })
       } else {
         if (to.matched.length) {
           next()

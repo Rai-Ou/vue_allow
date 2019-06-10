@@ -6,7 +6,7 @@ Vue.use(Vuex)
 const state = {
   mode: 'login',
   list: [],
-  permission: [{ aaa: 'ddd' }]
+  permission: [{ path: '/page', permission: [1, 4, 5] }]
 }
 const mutations = {
   setMode: (state, data) => {
