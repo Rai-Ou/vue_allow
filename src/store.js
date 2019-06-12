@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import api from '@/api'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ const mutations = {
 }
 const actions = {
   getPermission({ commit }) {
-    console.log(state.permission)
+    console.log(api.permission.getPermission())
+
     commit('setList', state.permission)
     return state.permission
   }

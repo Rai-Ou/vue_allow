@@ -2,7 +2,7 @@ import http from '@/lib/http'
 
 export default {
     // 获取权限
-    getPermission({commit}) {
+    getPermission() {
         return {
             "status": true,
             "code": 200,
