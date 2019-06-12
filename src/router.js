@@ -17,14 +17,6 @@ const constantRouterMap = [
     path: '/home',
     name: 'home',
     component: resolve => require(['@/views/Home.vue'], resolve)
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: resolve => require(['@/views/About.vue'], resolve)
   }
 ]
 // 注册路由
@@ -39,6 +31,12 @@ export const asyncRouterMap = [
     name: 'page',
     meta: { permission: [] },
     component: resolve => require(['@/views/Page.vue'], resolve)
+  },
+  {
+    path: '/about',
+    name: 'about',
+    meta: { permission: [] },
+    component: resolve => require(['@/views/About.vue'], resolve)
   }
 ]
 
@@ -92,11 +90,10 @@ router.beforeEach((to, form, next) => {
       console.log(store.state.list.length)
       if (store.state.list.length === 0) {
         // 如果没有权限列表，向后台请求
-        console.log(111)
+        console.log('没有权限列表，向后台请求')
         store
           .dispatch('getPermission')
           .then(res => {
-            console.log(res)
             routerMath(res, asyncRouterMap).then(res => {
               router.addRoutes(res[0])
               next(to.path)
